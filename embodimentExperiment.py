@@ -26,10 +26,10 @@ class EmbodimentExperiment:
                 channels=wf.getnchannels(),
                 rate=wf.getframerate(),
                 output=True)
-        data = wf.readframes(chunk)
+        data = wf.readframes(self.chunkSize)
         while data != '':
             stream.write(data)
-            data = wf.readframes(chunk)
+            data = wf.readframes(self.chunkSize)
 
         stream.stop_stream()
         stream.close()
