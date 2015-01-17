@@ -16,7 +16,6 @@ class EmbodimentExperiment:
         #Set sound settings
         self.soundLocation = soundLocation
         self.chunkSize = chunkSize
-        print("Loaded Nao")
 
     def _speechForVirtualNao(self, loc):
         wf = wave.open(self.soundLocation + loc, 'rb')

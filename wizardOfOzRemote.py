@@ -10,6 +10,7 @@ class WizardOfOzRemote(object):
         self.port = 9559
         self.soundLocation = 'sounds/'
         self.chunkSize = 1024
+        self.isConnected = False
         
         #Create canvas
         self.root = Tk()
@@ -58,11 +59,8 @@ class WizardOfOzRemote(object):
         self.settingsErrorLabelText = StringVar()
         self.settingsErrorLabel = Label(self.settingsTab, textvariable=self.settingsErrorLabelText, wraplength=250, anchor=W, justify=LEFT)
         self.settingsErrorLabel.grid(row=5, column = 0, columnspan=2, sticky='EW')
-        
-    def drawBehaviorTab(self):
-        Label(self.behaviorTab, text="Select a behavior for the Nao to execute:").grid(row=0, column = 0)
-        Button(self.behaviorTab, text="Hi, how are you?").grid(column=0, row=1)
 
+        
     def connect(self):
         try:
             #Retrieve parameters
@@ -84,8 +82,42 @@ class WizardOfOzRemote(object):
             self.settingsErrorLabelText.set("An error occured!\n" + e.message)
         else:
             #If everything is OK the remote is connected
+            self.isConnected = True
             self.settingsErrorLabel.config(fg = 'green')
             self.settingsErrorLabelText.set("Succesfully connected!")
+            self.enableBehaviorButtons()        
+            
+    def drawBehaviorTab(self):
+        #Change experimental settings
+        Label(self.behaviorTab, text="Experimental settings:", anchor=W).grid(row=0, column = 0, sticky='W')
+        self.isPhysical = BooleanVar()
+        self.isPhysical.set(True)
+        self.isSocial = BooleanVar()
+        self.isSocial.set(True)
+        Radiobutton(self.behaviorTab, text="Physical", variable=self.isPhysical, value=True).grid(row=1, column=0)
+        Radiobutton(self.behaviorTab, text="Virtual", variable=self.isPhysical, value=False).grid(row=1, column=1)
+        Radiobutton(self.behaviorTab, text="Neutral", variable=self.isSocial, value=False).grid(row=2, column=0)
+        Radiobutton(self.behaviorTab, text="Social", variable=self.isSocial, value=True).grid(row=2, column=1)
+
+        #Select behaviors
+        self.behaviorSelectLabelText = StringVar()
+        self.behaviorSelectLabelText.set("Connect to Naoqi in order to select a behavior")
+        Label(self.behaviorTab, textvariable=self.behaviorSelectLabelText).grid(row=3, column = 0)
+
+        #1. Hi
+        self.behaviorButton1 = Button(self.behaviorTab, text="Hi, how are you?", anchor=W, bg='grey', command=self.behavior1, state=DISABLED)
+        self.behaviorButton1.grid(row=4, column=0, sticky='EW')
+
+    def enableBehaviorButtons(self):
+        self.behaviorSelectLabelText.set("Select a behavior for the Nao to execute:")
+        self.behaviorButton1.config(state=NORMAL)
+        
+    #Trigger the right behavior
+    def behavior1(self):
+        if self.isSocial.get():
+            self.experiment.social_1(self.isPhysical.get())
+        else:
+            self.experiment.neutral_1(self.isPhysical.get())
 
     def run(self):
         #Starts and runs the GUI
