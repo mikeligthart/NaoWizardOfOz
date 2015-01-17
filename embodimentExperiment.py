@@ -10,14 +10,13 @@ class EmbodimentExperiment:
         try:
             self.tts = ALProxy("ALTextToSpeech", ip_address, port)
             self.behaviorManager = ALProxy("ALBehaviorManager", ip_address, port)
-        except Exception,e:
-            print "Could not create proxies"
-            print "Error was: ",e
-            sys.exit(1)
+        except Exception:
+            raise
 
         #Set sound settings
         self.soundLocation = soundLocation
         self.chunkSize = chunkSize
+        print("Loaded Nao")
 
     def _speechForVirtualNao(self, loc):
         wf = wave.open(self.soundLocation + loc, 'rb')
