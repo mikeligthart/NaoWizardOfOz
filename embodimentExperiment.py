@@ -36,17 +36,15 @@ class EmbodimentExperiment:
         p.terminate()
 
     #BEHAVIORS
-    def initialization(self, physical = True):
-        if physical:
+    def initialization(self):
             self.behaviorManager.runBehavior('mike/init')
 
-    def close(self, physical = True):
-        if physical:
+    def close(self):
             self.behaviorManager.runBehavior('mike/close')
 
     #1 - Hi, how are you?
     def neutral_1(self, physical = True):
-        self.behaviorManager.post.runBehavior('mike/1-neutral')
+        self.behaviorManager.post.runBehavior('mike/neutral-1')
         time.sleep(3)
         if physical:
             self.tts.say("Hi, how are you?")
@@ -54,7 +52,7 @@ class EmbodimentExperiment:
             self._speechForVirtualNao('1.wav')     
 
     def social_1(self, physical = True):
-        self.behaviorManager.post.runBehavior('mike/1-social')
+        self.behaviorManager.post.runBehavior('mike/social-1')
         time.sleep(2)
         if physical:
             self.tts.say("Hi, how are you?")

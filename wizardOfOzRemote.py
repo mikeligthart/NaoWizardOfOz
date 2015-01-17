@@ -6,8 +6,8 @@ class WizardOfOzRemote(Tkinter.Tk):
         Tkinter.Tk.__init__(self, parent)
         self.parent = parent
         self.initialize()
-        self.experiment = EmbodimentExperiment("10.0.1.2")
-        self.experiment.initialization(False)
+        self.experiment = EmbodimentExperiment("192.168.1.102")
+        self.experiment.initialization()
 
     def initialize(self):
         self.grid()

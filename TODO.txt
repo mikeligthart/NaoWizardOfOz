@@ -1,0 +1,2 @@
+* Transfer right behaviors to Physical and virtual Nao
+* Redo motions (neutral-n / social-n) and save them in repo
