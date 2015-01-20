@@ -6,7 +6,7 @@ class WizardOfOzRemote(object):
 
     def __init__(self):
         #Default settings
-        self.ipAddress = "192.168.1.102"
+        self.ipAddress = "10.0.1.4"
         self.port = 9559
         self.soundLocation = 'sounds/'
         self.chunkSize = 1024
@@ -88,6 +88,7 @@ class WizardOfOzRemote(object):
             self.enableBehaviorButtons()        
             
     def drawBehaviorTab(self):
+        ## SETTINGS ##
         #Change experimental settings
         Label(self.behaviorTab, text="Experimental settings:", anchor=W).grid(row=0, column = 0, sticky='W')
         self.isPhysical = BooleanVar()
@@ -104,25 +105,107 @@ class WizardOfOzRemote(object):
         self.behaviorSelectLabelText.set("Connect to Naoqi in order to select a behavior")
         Label(self.behaviorTab, textvariable=self.behaviorSelectLabelText).grid(row=3, column = 0)
 
-        #1. Hi
-        self.behaviorButton1 = Button(self.behaviorTab, text="Hi, how are you?", anchor=W, bg='grey', command=self.behavior1, state=DISABLED)
-        self.behaviorButton1.grid(row=4, column=0, sticky='EW')
+        ## BUTTONS ##
+        self.behaviorButtons = []
+
+        #0. init
+        behaviorButton0 = Button(self.behaviorTab, text="Initialization (before participant is in room)", anchor=W, bg='grey', command=self.behavior0, state=DISABLED)
+        behaviorButton0.grid(row=4, column=0, sticky='EW')
+        self.behaviorButtons.append(behaviorButton0)
+
+        #1. Hi        
+        behaviorButton1 = Button(self.behaviorTab, text="1. Hi, how are you?", anchor=W, bg='grey', command=self.behavior1, state=DISABLED)
+        behaviorButton1.grid(row=5, column=0, sticky='EW')
+        self.behaviorButtons.append(behaviorButton1)
+        
+        #2. What is the matter?
+        behaviorButton2 = Button(self.behaviorTab, text="2. What is the matter?", anchor=W, bg='grey', command=self.behavior2, state=DISABLED)
+        behaviorButton2.grid(row=6, column=0, sticky='EW')
+        self.behaviorButtons.append(behaviorButton2)
+
+        #3. Cold outside
+        behaviorButton3 = Button(self.behaviorTab, text="3. Cold outside", anchor=W, bg='grey', command=self.behavior3, state=DISABLED)
+        behaviorButton3.grid(row=7, column=0, sticky='EW')
+        self.behaviorButtons.append(behaviorButton3)
+
+        #4. Robot football
+        behaviorButton4 = Button(self.behaviorTab, text="4. Robot football", anchor=W, bg='grey', command=self.behavior4, state=DISABLED)
+        behaviorButton4.grid(row=8, column=0, sticky='EW')
+        self.behaviorButtons.append(behaviorButton4)
+
+        #5. Keep fit
+        behaviorButton5 = Button(self.behaviorTab, text="5. Keep fit", anchor=W, bg='grey', command=self.behavior5, state=DISABLED)
+        behaviorButton5.grid(row=9, column=0, sticky='EW')
+        self.behaviorButtons.append(behaviorButton5)
+
+        #6. Theater
+        behaviorButton6 = Button(self.behaviorTab, text="6. Theater", anchor=W, bg='grey', command=self.behavior6, state=DISABLED)
+        behaviorButton6.grid(row=10, column=0, sticky='EW')
+        self.behaviorButtons.append(behaviorButton6)
+
+        #7. Comedian
+        behaviorButton7 = Button(self.behaviorTab, text="7. Comedian", anchor=W, bg='grey', command=self.behavior7, state=DISABLED)
+        behaviorButton7.grid(row=11, column=0, sticky='EW')
+        self.behaviorButtons.append(behaviorButton7)  
 
     def enableBehaviorButtons(self):
+        #Make the behavior buttons selectable after connecting to a Naoqi instance
         self.behaviorSelectLabelText.set("Select a behavior for the Nao to execute:")
-        self.behaviorButton1.config(state=NORMAL)
+        for behaviorButton in self.behaviorButtons:
+            behaviorButton.config(state=NORMAL)
         
-    #Trigger the right behavior
+    ## RUN RIGHT BEHAVIOR ##
+    def behavior0(self):
+        self.experiment.initialization()
+        
     def behavior1(self):
         if self.isSocial.get():
             self.experiment.social_1(self.isPhysical.get())
         else:
             self.experiment.neutral_1(self.isPhysical.get())
+            
+    def behavior2(self):
+        if self.isSocial.get():
+            self.experiment.social_2(self.isPhysical.get())
+        else:
+            self.experiment.neutral_2(self.isPhysical.get())
 
+    def behavior3(self):
+        if self.isSocial.get():
+            self.experiment.social_3(self.isPhysical.get())
+        else:
+            self.experiment.neutral_3(self.isPhysical.get())
+
+    def behavior4(self):
+        if self.isSocial.get():
+            self.experiment.social_4(self.isPhysical.get())
+        else:
+            self.experiment.neutral_4(self.isPhysical.get())
+
+    def behavior5(self):
+        if self.isSocial.get():
+            self.experiment.social_5(self.isPhysical.get())
+        else:
+            self.experiment.neutral_5(self.isPhysical.get())
+
+    def behavior6(self):
+        if self.isSocial.get():
+            self.experiment.social_6(self.isPhysical.get())
+        else:
+            self.experiment.neutral_6(self.isPhysical.get())
+
+    def behavior7(self):
+        if self.isSocial.get():
+            self.experiment.social_7(self.isPhysical.get())
+        else:
+            self.experiment.neutral_7(self.isPhysical.get())
+
+    ## RUN PROGRAM ##
     def run(self):
         #Starts and runs the GUI
         self.root.mainloop()
 
+## AUTOSTART ##
 if __name__ == "__main__":
     remote = WizardOfOzRemote()
     remote.run()
