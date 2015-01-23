@@ -6,7 +6,7 @@ class WizardOfOzRemote(object):
 
     def __init__(self):
         #Default settings
-        self.ipAddress = "192.168.1.102"#"131.174.106.230"
+        self.ipAddress = "10.0.1.5"#"131.174.106.230"
         self.port = 9559
         self.soundPort = 50007
         self.isConnected = False
@@ -16,7 +16,7 @@ class WizardOfOzRemote(object):
         self.root.title("Nao remote")
 
         #Create notebook
-        self.noteBook = Notebook(self.root, width=400, height=400, activefg='blue')
+        self.noteBook = Notebook(self.root, width=400, height=600, activefg='blue')
         self.noteBook.grid()
 
         #Create settings tab in notebook
@@ -41,35 +41,37 @@ class WizardOfOzRemote(object):
         self.portEntry.grid(row=1, column=1, sticky='EW')
         self.portEntry.insert(0,self.port)
 
-        #soundPort
-        Label(self.settingsTab, text="Port playASoundServer: ", anchor=W).grid(row=2, column = 0, sticky='EW')
-        self.soundPortEntry = Entry(self.settingsTab)
-        self.soundPortEntry.grid(row=2, column=1, sticky='EW')
-        self.soundPortEntry.insert(0, self.soundPort)
+        #Connect to Nao button
+        Button(self.settingsTab, text="Connect to Nao", command=self.connectToNao, anchor=E).grid(row=2, column=1, sticky='E')
 
-        #Connect button
-        Button(self.settingsTab, text="Connect", command=self.connect, anchor=E).grid(row=3, column=1, sticky='E')
+        #port GUI items
+        Label(self.settingsTab, text="Port playASoundServer: ", anchor=W).grid(row=3, column = 0, sticky='EW')
+        self.soundPortEntry = Entry(self.settingsTab)
+        self.soundPortEntry.grid(row=3, column=1, sticky='EW')
+        self.soundPortEntry.insert(0,self.soundPort)
+
+        #Connect to Sound server
+        Button(self.settingsTab, text="Connect to playASoundServer", command=self.connectToPlayASoundServer, anchor=E).grid(row=4, column=1, sticky='E')
 
         #Error messages
         self.settingsErrorLabelText = StringVar()
         self.settingsErrorLabel = Label(self.settingsTab, textvariable=self.settingsErrorLabelText, wraplength=250, anchor=W, justify=LEFT)
-        self.settingsErrorLabel.grid(row=4, column = 0, columnspan=2, sticky='EW')
+        self.settingsErrorLabel.grid(row=5, column = 0, columnspan=2, sticky='EW')
 
         
-    def connect(self):
+    def connectToNao(self):
         try:
             #Retrieve parameters
             self.ipAddress = self.ipAddressEntry.get()
             self.port = int(self.portEntry.get())
-            self.soundPort = int(self.soundPortEntry.get())
 
             #Create new EmbodimentExperiment instance
-            self.experiment = EmbodimentExperiment(self.ipAddress, self.port, self.soundPort)
+            self.experiment = EmbodimentExperiment(self.ipAddress, self.port)
             
         except ValueError:
-            #Port or chunkSize aren't numbers
+            #Port is not an int
             self.settingsErrorLabel.config(fg = 'red')
-            self.settingsErrorLabelText.set("An error occured!\nThe ports must be an integer")
+            self.settingsErrorLabelText.set("An error occured!\nThe port integer")
         except Exception as e:
             #Most likely not connected to Nao
             self.settingsErrorLabel.config(fg = 'red')
@@ -78,8 +80,27 @@ class WizardOfOzRemote(object):
             #If everything is OK the remote is connected
             self.isConnected = True
             self.settingsErrorLabel.config(fg = 'green')
-            self.settingsErrorLabelText.set("Succesfully connected!")
-            self.enableBehaviorButtons()        
+            self.settingsErrorLabelText.set("Succesfully connected to Nao!")
+            self.enableBehaviorButtons()
+
+    def connectToPlayASoundServer(self):
+        try:
+            #get values
+            self.ipAddress = self.ipAddressEntry.get()
+            self.soundPort = int(self.soundPortEntry.get())
+            #connect
+            self.experiment.connectToPlayASoundServer(self.soundPort)
+        except ValueError:
+            #Port is not an int
+            self.settingsErrorLabel.config(fg = 'red')
+            self.settingsErrorLabelText.set("An error occured!\nThe port integer")
+            #Something else is going on
+        except Exception as e:
+            self.settingsErrorLabel.config(fg = 'red')
+            self.settingsErrorLabelText.set("An error occured!\n" + e.message)
+        else:
+            self.settingsErrorLabel.config(fg = 'green')
+            self.settingsErrorLabelText.set("Succesfully connected to playASoundServer!")
             
     def drawBehaviorTab(self):
         ## SETTINGS ##
@@ -109,7 +130,10 @@ class WizardOfOzRemote(object):
                                 ["4. Robot football", 4, 8, 0],
                                 ["5. Keep fit", 5, 9, 0],
                                 ["6. Theater", 6, 10, 0],
-                                ["7. Comedian", 7, 11, 0]]
+                                ["7. Comedian", 7, 11, 0],
+                                ["8. Joke", 8, 12, 0],
+                                ["9. Benedict Cumberbatch", 9, 13, 0],
+                                ["10. Oscars", 10, 14, 0]]
 
         self.behaviorButtons = self.buildBehaviorButtons(behaviorButtonsOutline)
 

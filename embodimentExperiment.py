@@ -4,12 +4,12 @@ import socket
 
 class EmbodimentExperiment:
 
-    def __init__(self, ip_address, port = 9559, soundPort = 50007):
+    def __init__(self, ip_address, port = 9559):
         #Load Nao Proxies
         self.tts = ALProxy("ALTextToSpeech", ip_address, port)
         self.behaviorManager = ALProxy("ALBehaviorManager", ip_address, port)
 
-        #Connect to PlayASoundServer
+    def connectToPlayASoundServer(self, ip_address, soundPort = 50007):
         self.playASoundSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.playASoundSocket.connect((ip_address, soundPort))
 
@@ -34,6 +34,9 @@ class EmbodimentExperiment:
         elif trial == 5: self.trial_5(isPhysical, isSocial)
         elif trial == 6: self.trial_6(isPhysical, isSocial)
         elif trial == 7: self.trial_7(isPhysical, isSocial)
+        elif trial == 8: self.trial_8(isPhysical, isSocial)
+        elif trial == 9: self.trial_9(isPhysical, isSocial)
+        elif trial == 10: self.trial_10(isPhysical, isSocial)
         else: self.close()
             
     #1 - Hi, how are you?
@@ -152,7 +155,7 @@ class EmbodimentExperiment:
             time.sleep(1) 
             if physical:
                 self.tts.say("That is nothing for me. Robots can not understand humor.")
-                self.tts.say("If you tell a joke I might be able to understand it")
+                self.tts.say("If you tell a joke I might be able to learn it")
             else:
                 self._playVirtualSound('7_1a.wav')
                 self._playVirtualSound('7_2a.wav')
@@ -161,7 +164,72 @@ class EmbodimentExperiment:
             time.sleep(1)
             if physical:
                 self.tts.say("That sounds cool. Unfortunately robots cannot understand humor.")
-                self.tts.say("Can you please tell a joke. I might be able to understand it.")
+                self.tts.say("Can you please tell a joke. I might be able to learn it.")
             else:
                 self._playVirtualSound('7_1b.wav')
-                self._playVirtualSound('7_2b.wav') 
+                self._playVirtualSound('7_2b.wav')
+
+    #8 - Joke
+    def trial_8(self, physical, social):
+        if not social:
+            if physical:
+                self.tts.say("Haha")
+                self.tts.say("I have one to. Fool me once, shame on you. Fool me twice, shame on me. Fool me three hundred fifty thousand times, you are a weatherman.")
+            else:
+                self._playVirtualSound('8_1a.wav')
+                self._playVirtualSound('8_2.wav')
+        else:
+            self.behaviorManager.post.runBehavior('mike/social-8')
+            if physical:
+                time.sleep(3)
+                self.tts.say("I have one to. Fool me once, shame on you. Fool me twice, shame on me. Fool me three hundred fifty thousand times, you are a weatherman.")
+            else:
+                time.sleep(1)
+                self._playVirtualSound('8_1a.wav')
+                time.sleep(3)
+                self._playVirtualSound('8_2.wav')
+
+    #9 - Benedict Cumberbatch
+    def trial_9(self, physical, social):
+        if not social:
+            if physical:
+                self.tts.say("Maybe I should become an actor like Benedict Cumberbatch. He plays Alan Turing in the imitation game.")
+            else:
+                self._playVirtualSound('9_2a.wav')
+        else:
+            self.behaviorManager.post.runBehavior('mike/social-8')
+            if physical:
+                time.sleep(3)
+                self.tts.say("Maybe I should become an actor like Benedict Cumberbatch. He plays my hero, Alan Turing, in the imitation game.")
+            else:
+                time.sleep(1)
+                self._playVirtualSound('9_1b.wav')
+                time.sleep(2)
+                self._playVirtualSound('9_2b.wav')
+
+    #10 - Oscars
+    def trial_10(self, physical, social):
+        if not social:
+            self.behaviorManager.post.runBehavior('mike/neutral-4')
+            if physical:
+                time.sleep(1)
+                self.tts.say("Yeah I hope so!")
+                time.sleep(1)
+                self.tts.say("What is your favorite movie for this year's Oscars?")
+            else:
+                time.sleep(1)
+                self._playVirtualSound('10_1a.wav')
+                time.sleep(1)
+                self._playVirtualSound('10_2.wav')
+        else:
+            self.behaviorManager.post.runBehavior('mike/social-4')
+            if physical:
+                time.sleep(1)
+                self.tts.say("Yeah let us hope so!")
+                time.sleep(1)
+                self.tts.say("What is your favorite movie for this year's Oscars?")
+            else:
+                time.sleep(1)
+                self._playVirtualSound('10_1b.wav')
+                time.sleep(1)
+                self._playVirtualSound('10_2.wav')
