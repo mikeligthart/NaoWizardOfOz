@@ -100,52 +100,27 @@ class WizardOfOzRemote(object):
         Label(self.behaviorTab, textvariable=self.behaviorSelectLabelText).grid(row=3, column = 0)
 
         ## BUTTONS ##
-        self.behaviorButtons = []
+        #[buttonText, trial, buttonRow, buttonColumn]
+        behaviorButtonsOutline = [["Initialization (before participant is in room)", 0, 4, 0],
+                                ["Close the shop", 999, 4, 1],
+                                ["1. Hi, how are you?", 1, 5, 0],
+                                ["2. What is the matter?", 2, 6, 0],
+                                ["3. Cold outside", 3, 7, 0],
+                                ["4. Robot football", 4, 8, 0],
+                                ["5. Keep fit", 5, 9, 0],
+                                ["6. Theater", 6, 10, 0],
+                                ["7. Comedian", 7, 11, 0]]
 
-        #0. init and close
-        behaviorButton0 = Button(self.behaviorTab, text="Initialization (before participant is in room)", anchor=W, bg='grey', command=lambda b=0: self.behavior(b), state=DISABLED)
-        behaviorButton0.grid(row=4, column=0, sticky='EW')
-        self.behaviorButtons.append(behaviorButton0)
+        self.behaviorButtons = self.buildBehaviorButtons(behaviorButtonsOutline)
 
-        behaviorButton999 = Button(self.behaviorTab, text="Close the shop", anchor=W, bg='grey', command=lambda b=999: self.behavior(b), state=DISABLED)
-        behaviorButton999.grid(row=4, column=1, sticky='EW')
-        self.behaviorButtons.append(behaviorButton999)
-
-        #1. Hi        
-        behaviorButton1 = Button(self.behaviorTab, text="1. Hi, how are you?", anchor=W, bg='grey', command=lambda b=1: self.behavior(b), state=DISABLED)
-        behaviorButton1.grid(row=5, column=0, sticky='EW')
-        self.behaviorButtons.append(behaviorButton1)
-        
-        #2. What is the matter?
-        behaviorButton2 = Button(self.behaviorTab, text="2. What is the matter?", anchor=W, bg='grey', command=lambda b=2: self.behavior(b), state=DISABLED)
-        behaviorButton2.grid(row=6, column=0, sticky='EW')
-        self.behaviorButtons.append(behaviorButton2)
-
-        #3. Cold outside
-        behaviorButton3 = Button(self.behaviorTab, text="3. Cold outside", anchor=W, bg='grey', command=lambda b=3: self.behavior(b), state=DISABLED)
-        behaviorButton3.grid(row=7, column=0, sticky='EW')
-        self.behaviorButtons.append(behaviorButton3)
-
-        #4. Robot football
-        behaviorButton4 = Button(self.behaviorTab, text="4. Robot football", anchor=W, bg='grey', command=lambda b=4: self.behavior(b), state=DISABLED)
-        behaviorButton4.grid(row=8, column=0, sticky='EW')
-        self.behaviorButtons.append(behaviorButton4)
-
-        #5. Keep fit
-        behaviorButton5 = Button(self.behaviorTab, text="5. Keep fit", anchor=W, bg='grey', command=lambda b=5: self.behavior(b), state=DISABLED)
-        behaviorButton5.grid(row=9, column=0, sticky='EW')
-        self.behaviorButtons.append(behaviorButton5)
-
-        #6. Theater
-        behaviorButton6 = Button(self.behaviorTab, text="6. Theater", anchor=W, bg='grey', command=lambda b=6: self.behavior(b), state=DISABLED)
-        behaviorButton6.grid(row=10, column=0, sticky='EW')
-        self.behaviorButtons.append(behaviorButton6)
-
-        #7. Comedian
-        behaviorButton7 = Button(self.behaviorTab, text="7. Comedian", anchor=W, bg='grey', command=lambda b=7: self.behavior(b), state=DISABLED)
-        behaviorButton7.grid(row=11, column=0, sticky='EW')
-        self.behaviorButtons.append(behaviorButton7)  
-
+    def buildBehaviorButtons(self, drafts):
+        behaviorButtons = []
+        for draft in drafts:
+            button = Button(self.behaviorTab, text=draft[0], anchor=W, bg='grey', command=lambda b=draft[1]: self.behavior(b), state=DISABLED)
+            button.grid(row=draft[2], column=draft[3], sticky='EW')
+            behaviorButtons.append(button)
+        return behaviorButtons
+    
     def enableBehaviorButtons(self):
         #Make the behavior buttons selectable after connecting to a Naoqi instance
         self.behaviorSelectLabelText.set("Select a behavior for the Nao to execute:")
