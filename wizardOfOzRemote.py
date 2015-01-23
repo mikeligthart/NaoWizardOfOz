@@ -103,46 +103,46 @@ class WizardOfOzRemote(object):
         self.behaviorButtons = []
 
         #0. init and close
-        behaviorButton0 = Button(self.behaviorTab, text="Initialization (before participant is in room)", anchor=W, bg='grey', command=self.behavior0, state=DISABLED)
+        behaviorButton0 = Button(self.behaviorTab, text="Initialization (before participant is in room)", anchor=W, bg='grey', command=lambda b=0: self.behavior(b), state=DISABLED)
         behaviorButton0.grid(row=4, column=0, sticky='EW')
         self.behaviorButtons.append(behaviorButton0)
 
-        behaviorButton999 = Button(self.behaviorTab, text="Close the shop", anchor=W, bg='grey', command=self.behavior999, state=DISABLED)
+        behaviorButton999 = Button(self.behaviorTab, text="Close the shop", anchor=W, bg='grey', command=lambda b=999: self.behavior(b), state=DISABLED)
         behaviorButton999.grid(row=4, column=1, sticky='EW')
         self.behaviorButtons.append(behaviorButton999)
 
         #1. Hi        
-        behaviorButton1 = Button(self.behaviorTab, text="1. Hi, how are you?", anchor=W, bg='grey', command=self.behavior1, state=DISABLED)
+        behaviorButton1 = Button(self.behaviorTab, text="1. Hi, how are you?", anchor=W, bg='grey', command=lambda b=1: self.behavior(b), state=DISABLED)
         behaviorButton1.grid(row=5, column=0, sticky='EW')
         self.behaviorButtons.append(behaviorButton1)
         
         #2. What is the matter?
-        behaviorButton2 = Button(self.behaviorTab, text="2. What is the matter?", anchor=W, bg='grey', command=self.behavior2, state=DISABLED)
+        behaviorButton2 = Button(self.behaviorTab, text="2. What is the matter?", anchor=W, bg='grey', command=lambda b=2: self.behavior(b), state=DISABLED)
         behaviorButton2.grid(row=6, column=0, sticky='EW')
         self.behaviorButtons.append(behaviorButton2)
 
         #3. Cold outside
-        behaviorButton3 = Button(self.behaviorTab, text="3. Cold outside", anchor=W, bg='grey', command=self.behavior3, state=DISABLED)
+        behaviorButton3 = Button(self.behaviorTab, text="3. Cold outside", anchor=W, bg='grey', command=lambda b=3: self.behavior(b), state=DISABLED)
         behaviorButton3.grid(row=7, column=0, sticky='EW')
         self.behaviorButtons.append(behaviorButton3)
 
         #4. Robot football
-        behaviorButton4 = Button(self.behaviorTab, text="4. Robot football", anchor=W, bg='grey', command=self.behavior4, state=DISABLED)
+        behaviorButton4 = Button(self.behaviorTab, text="4. Robot football", anchor=W, bg='grey', command=lambda b=4: self.behavior(b), state=DISABLED)
         behaviorButton4.grid(row=8, column=0, sticky='EW')
         self.behaviorButtons.append(behaviorButton4)
 
         #5. Keep fit
-        behaviorButton5 = Button(self.behaviorTab, text="5. Keep fit", anchor=W, bg='grey', command=self.behavior5, state=DISABLED)
+        behaviorButton5 = Button(self.behaviorTab, text="5. Keep fit", anchor=W, bg='grey', command=lambda b=5: self.behavior(b), state=DISABLED)
         behaviorButton5.grid(row=9, column=0, sticky='EW')
         self.behaviorButtons.append(behaviorButton5)
 
         #6. Theater
-        behaviorButton6 = Button(self.behaviorTab, text="6. Theater", anchor=W, bg='grey', command=self.behavior6, state=DISABLED)
+        behaviorButton6 = Button(self.behaviorTab, text="6. Theater", anchor=W, bg='grey', command=lambda b=6: self.behavior(b), state=DISABLED)
         behaviorButton6.grid(row=10, column=0, sticky='EW')
         self.behaviorButtons.append(behaviorButton6)
 
         #7. Comedian
-        behaviorButton7 = Button(self.behaviorTab, text="7. Comedian", anchor=W, bg='grey', command=self.behavior7, state=DISABLED)
+        behaviorButton7 = Button(self.behaviorTab, text="7. Comedian", anchor=W, bg='grey', command=lambda b=7: self.behavior(b), state=DISABLED)
         behaviorButton7.grid(row=11, column=0, sticky='EW')
         self.behaviorButtons.append(behaviorButton7)  
 
@@ -153,53 +153,13 @@ class WizardOfOzRemote(object):
             behaviorButton.config(state=NORMAL)
         
     ## RUN RIGHT BEHAVIOR ##
-    def behavior0(self):
-        self.experiment.initialization()
-        
-    def behavior1(self):
-        if self.isSocial.get():
-            self.experiment.social_1(self.isPhysical.get())
+    def behavior(self, trial):
+        if trial == 0:
+            self.experiment.initialization()
+        elif trial == 999:
+            self.experiment.close()
         else:
-            self.experiment.neutral_1(self.isPhysical.get())
-            
-    def behavior2(self):
-        if self.isSocial.get():
-            self.experiment.social_2(self.isPhysical.get())
-        else:
-            self.experiment.neutral_2(self.isPhysical.get())
-
-    def behavior3(self):
-        if self.isSocial.get():
-            self.experiment.social_3(self.isPhysical.get())
-        else:
-            self.experiment.neutral_3(self.isPhysical.get())
-
-    def behavior4(self):
-        if self.isSocial.get():
-            self.experiment.social_4(self.isPhysical.get())
-        else:
-            self.experiment.neutral_4(self.isPhysical.get())
-
-    def behavior5(self):
-        if self.isSocial.get():
-            self.experiment.social_5(self.isPhysical.get())
-        else:
-            self.experiment.neutral_5(self.isPhysical.get())
-
-    def behavior6(self):
-        if self.isSocial.get():
-            self.experiment.social_6(self.isPhysical.get())
-        else:
-            self.experiment.neutral_6(self.isPhysical.get())
-
-    def behavior7(self):
-        if self.isSocial.get():
-            self.experiment.social_7(self.isPhysical.get())
-        else:
-            self.experiment.neutral_7(self.isPhysical.get())
-
-    def behavior999(self):
-        self.experiment.close()
+            self.experiment.behavior(trial, self.isPhysical.get(), self.isSocial.get())
 
     ## RUN PROGRAM ##
     def run(self):
