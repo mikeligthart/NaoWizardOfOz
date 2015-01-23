@@ -133,7 +133,8 @@ class WizardOfOzRemote(object):
                                 ["7. Comedian", 7, 11, 0],
                                 ["8. Joke", 8, 12, 0],
                                 ["9. Benedict Cumberbatch", 9, 13, 0],
-                                ["10. Oscars", 10, 14, 0]]
+                                ["10. Oscars", 10, 14, 0],
+                                ["11. Food and cranky humans", 11, 15, 0]]
 
         self.behaviorButtons = self.buildBehaviorButtons(behaviorButtonsOutline)
 
@@ -156,7 +157,7 @@ class WizardOfOzRemote(object):
         if trial == 0:
             self.experiment.initialization()
         elif trial == 999:
-            self.experiment.close()
+            self.experiment.close(self.isPhysical.get())
         else:
             self.experiment.behavior(trial, self.isPhysical.get(), self.isSocial.get())
 

@@ -21,10 +21,11 @@ class EmbodimentExperiment:
     def initialization(self):
             self.behaviorManager.runBehavior('mike/init')
 
-    def close(self):
+    def close(self, isPhysical):
             self.behaviorManager.runBehavior('mike/close')
-            self._playVirtualSound('close')
-            self.playASoundSocket.close()
+            if not isPhysical:
+                self._playVirtualSound('close')
+                self.playASoundSocket.close()
 
     def behavior(self, trial, isPhysical, isSocial):
         if trial == 1: self.trial_1(isPhysical, isSocial)
@@ -37,6 +38,7 @@ class EmbodimentExperiment:
         elif trial == 8: self.trial_8(isPhysical, isSocial)
         elif trial == 9: self.trial_9(isPhysical, isSocial)
         elif trial == 10: self.trial_10(isPhysical, isSocial)
+        elif trial == 11: self.trial_11(isPhysical, isSocial)
         else: self.close()
             
     #1 - Hi, how are you?
@@ -197,7 +199,7 @@ class EmbodimentExperiment:
             else:
                 self._playVirtualSound('9_2a.wav')
         else:
-            self.behaviorManager.post.runBehavior('mike/social-8')
+            self.behaviorManager.post.runBehavior('mike/social-9')
             if physical:
                 time.sleep(3)
                 self.tts.say("Maybe I should become an actor like Benedict Cumberbatch. He plays my hero, Alan Turing, in the imitation game.")
@@ -212,24 +214,40 @@ class EmbodimentExperiment:
         if not social:
             self.behaviorManager.post.runBehavior('mike/neutral-4')
             if physical:
-                time.sleep(1)
                 self.tts.say("Yeah I hope so!")
-                time.sleep(1)
                 self.tts.say("What is your favorite movie for this year's Oscars?")
             else:
-                time.sleep(1)
                 self._playVirtualSound('10_1a.wav')
-                time.sleep(1)
                 self._playVirtualSound('10_2.wav')
         else:
             self.behaviorManager.post.runBehavior('mike/social-4')
             if physical:
-                time.sleep(1)
                 self.tts.say("Yeah let us hope so!")
-                time.sleep(1)
                 self.tts.say("What is your favorite movie for this year's Oscars?")
             else:
-                time.sleep(1)
                 self._playVirtualSound('10_1b.wav')
-                time.sleep(1)
                 self._playVirtualSound('10_2.wav')
+
+    #11 - Food and cranky humans
+    def trial_11(self, physical, social):
+        if not social:
+            if physical:
+                self.tts.say("I only need electricity to function. So I can get hungry sometimes. I heard humans when hungry can go like this: ")
+                self.behaviorManager.post.runBehavior('mike/neutral-11')
+                time.sleep(2)
+                self.tts.say("Is that true?")
+            else:
+                self._playVirtualSound('11_1a.wav')
+                self._playVirtualSound('11_2.wav')
+                self._playVirtualSound('11_3.wav')
+        else:
+            if physical:
+                self.tts.say("Good question! I only need electricity to function. So I can get hungry sometimes. I heard humans when hungry can behave like this: ")
+                self.behaviorManager.post.runBehavior('mike/social-11')
+                time.sleep(4)
+                self.tts.say("Is that true?")
+            else:
+                self._playVirtualSound('11_1b.wav')
+                self.behaviorManager.post.runBehavior('mike/social-11')
+                time.sleep(4)
+                self._playVirtualSound('11_3.wav')
