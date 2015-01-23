@@ -16,7 +16,7 @@ class PlayASoundServer(object):
             self.active = True
             self.playIncommingSounds()
         except IOError as e:
-            print "An I/O error occured:\n" + e
+            print "I/O error({0}): {1}".format(e.errno, e.strerror)
         except Exception as e:
             print 'An error occured:\n' + e
         finally:
@@ -45,6 +45,7 @@ class PlayASoundServer(object):
             if soundFileName == 'close':
                 self.active = False
             elif soundFileName != '':
+                print 'play ' + soundFileName
                 self._speechForVirtualNao(soundFileName)
         self.close(True)
 
