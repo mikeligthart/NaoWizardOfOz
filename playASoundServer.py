@@ -41,12 +41,12 @@ class PlayASoundServer(object):
     def playIncommingSounds(self):
         while self.active:
             soundFileName = self.conn.recv(1024)
-            self.conn.send(soundFileName)
             if soundFileName == 'close':
                 self.active = False
             elif soundFileName != '':
                 print 'play ' + soundFileName
                 self._speechForVirtualNao(soundFileName)
+            self.conn.send(soundFileName)
         self.close(True)
 
     def close(self, force = False):
