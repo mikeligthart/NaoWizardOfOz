@@ -6,7 +6,7 @@ class WizardOfOzRemote(object):
 
     def __init__(self):
         #Default settings
-        self.ipAddress = "10.0.1.5"#"131.174.106.230"
+        self.ipAddress = "192.168.1.102"#"131.174.106.230"
         self.port = 9559
         self.soundPort = 50007
         self.isConnected = False
@@ -89,7 +89,7 @@ class WizardOfOzRemote(object):
             self.ipAddress = self.ipAddressEntry.get()
             self.soundPort = int(self.soundPortEntry.get())
             #connect
-            self.experiment.connectToPlayASoundServer(self.soundPort)
+            self.experiment.connectToPlayASoundServer(self.ipAddress, self.soundPort)
         except ValueError:
             #Port is not an int
             self.settingsErrorLabel.config(fg = 'red')

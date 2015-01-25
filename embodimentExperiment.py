@@ -187,8 +187,8 @@ class EmbodimentExperiment:
                 self.tts.say("I have one to. Fool me once, shame on you. Fool me twice, shame on me. Fool me three hundred fifty thousand times, you are a weatherman.")
             else:
                 time.sleep(1)
-                self._playVirtualSound('8_1a.wav')
-                time.sleep(3)
+                self._playVirtualSound('8_1b.wav')
+                time.sleep(2)
                 self._playVirtualSound('8_2.wav')
 
     #9 - Benedict Cumberbatch
@@ -249,5 +249,6 @@ class EmbodimentExperiment:
             else:
                 self._playVirtualSound('11_1b.wav')
                 self.behaviorManager.post.runBehavior('mike/social-11')
-                time.sleep(4)
+                self._playVirtualSound('11_2.wav')
+                time.sleep(3)
                 self._playVirtualSound('11_3.wav')
