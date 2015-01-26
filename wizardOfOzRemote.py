@@ -6,7 +6,7 @@ class WizardOfOzRemote(object):
 
     def __init__(self):
         #Default settings
-        self.ipAddress = "192.168.1.102"#"131.174.106.230"
+        self.ipAddress = "131.174.106.230"#"131.174.106.230"
         self.port = 9559
         self.soundPort = 50007
         self.isConnected = False
@@ -124,17 +124,23 @@ class WizardOfOzRemote(object):
         #[buttonText, trial, buttonRow, buttonColumn]
         behaviorButtonsOutline = [["Initialization (before participant is in room)", 0, 4, 0],
                                 ["Close the shop", 999, 4, 1],
-                                ["1. Hi, how are you?", 1, 5, 0],
-                                ["2. What is the matter?", 2, 6, 0],
-                                ["3. Cold outside", 3, 7, 0],
-                                ["4. Robot football", 4, 8, 0],
-                                ["5. Keep fit", 5, 9, 0],
-                                ["6. Theater", 6, 10, 0],
-                                ["7. Comedian", 7, 11, 0],
-                                ["8. Joke", 8, 12, 0],
-                                ["9. Benedict Cumberbatch", 9, 13, 0],
-                                ["10. Oscars", 10, 14, 0],
-                                ["11. Food and cranky humans", 11, 15, 0]]
+                                ["Off-script", 998, 5, 1],
+                                ["1. Start", 1, 5, 0],
+                                ["2. P says name", 2, 6, 0],
+                                ["3. P says 'I'm alright'", 3, 7, 0],
+                                ["4. P says 'outside a lot'", 4, 8, 0],
+                                ["5. P says 'new years resolution?'", 5, 9, 0],
+                                ["6. P says 'game on Sunday'", 6, 10, 0],
+                                ["7. P says 'theater more often'", 7, 11, 0],
+                                ["8. P says 'make me laugh'", 8, 12, 0],
+                                ["9. P says 'coming back'", 9, 13, 0],
+                                ["10. P says 'could be actor'", 10, 14, 0],
+                                ["11. P says 'wins an Oscar then'", 11, 15, 0],
+                                ["12. P says 'drink or eat sometimes?'", 12, 16, 0],
+                                ["13. P says 'they are hungry'", 13, 17, 0],
+                                ["14. P says 'also need a break'", 14, 18, 0],
+                                ["15. P says 'go shopping'", 15, 19, 0],
+                                ["16. End", 16, 20, 0]]
 
         self.behaviorButtons = self.buildBehaviorButtons(behaviorButtonsOutline)
 
@@ -158,6 +164,8 @@ class WizardOfOzRemote(object):
             self.experiment.initialization()
         elif trial == 999:
             self.experiment.close(self.isPhysical.get())
+        elif trial == 998:
+            self.experiment.offScript(self.isPhysical.get())
         else:
             self.experiment.behavior(trial, self.isPhysical.get(), self.isSocial.get())
 

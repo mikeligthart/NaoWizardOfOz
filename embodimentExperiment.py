@@ -1,3 +1,4 @@
+# -*- coding: cp1252 -*-
 from naoqi import ALProxy
 import time
 import socket
@@ -19,13 +20,19 @@ class EmbodimentExperiment:
 
     #BEHAVIORS
     def initialization(self):
-            self.behaviorManager.runBehavior('mike/init')
+        self.behaviorManager.runBehavior('mike/init')
 
     def close(self, isPhysical):
-            self.behaviorManager.runBehavior('mike/close')
-            if not isPhysical:
-                self._playVirtualSound('close')
-                self.playASoundSocket.close()
+        self.behaviorManager.runBehavior('mike/close')
+        if not isPhysical:
+            self._playVirtualSound('close')
+            self.playASoundSocket.close()
+
+    def offScript(self, isPhysical):
+        if isPhysical:
+            self.tts.say("I'm sorry I did not quite get that. Could you go back to the script so that I can improve my speech recognition even more?")
+        else:
+            self._playVirtualSound('offScript.wav')
 
     def behavior(self, trial, isPhysical, isSocial):
         if trial == 1: self.trial_1(isPhysical, isSocial)
@@ -39,27 +46,52 @@ class EmbodimentExperiment:
         elif trial == 9: self.trial_9(isPhysical, isSocial)
         elif trial == 10: self.trial_10(isPhysical, isSocial)
         elif trial == 11: self.trial_11(isPhysical, isSocial)
+        elif trial == 12: self.trial_12(isPhysical, isSocial)
+        elif trial == 13: self.trial_13(isPhysical, isSocial)
+        elif trial == 14: self.trial_14(isPhysical, isSocial)
+        elif trial == 15: self.trial_15(isPhysical, isSocial)
+        elif trial == 16: self.trial_16(isPhysical, isSocial)
         else: self.close()
-            
-    #1 - Hi, how are you?
+
     def trial_1(self, physical, social):
         if not social:
             self.behaviorManager.post.runBehavior('mike/neutral-1')
             time.sleep(1)
             if physical:
-                self.tts.say("Hi, how are you?")
+                self.tts.say("Hi.")
+                time.sleep(2)
+                self.tts.say("Let's start the converstation. What is your name?")
             else:
                 self._playVirtualSound('1.wav')
+                time.sleep(2)
+                self._playVirtualSound('1_2a')
         else:
             self.behaviorManager.post.runBehavior('mike/social-1')
             time.sleep(1)
             if physical:
-                self.tts.say("Hi, how are you?")
+                self.tts.say("Hi")
+                time.sleep(2)
+                self.tts.say("I'm looking forward to having a conversation with you. What is your name?")
             else:
-                self._playVirtualSound('1.wav') 
-
-    #2 - What is the matter?
+                self._playVirtualSound('1.wav')
+                time.sleep(2)
+                self._playVirtualSound('1_2b')
+            
     def trial_2(self, physical, social):
+        if not social:
+            if physical:
+                self.tts.say("How are you?")
+            else:
+                self._playVirtualSound('1_3.wav')
+        else:
+            self.behaviorManager.post.runBehavior('mike/neutral-4')
+            time.sleep(1)
+            if physical:
+                self.tts.say("How are you?")
+            else:
+                self._playVirtualSound('1_3.wav') 
+
+    def trial_3(self, physical, social):
         if not social:
             self.behaviorManager.post.runBehavior('mike/neutral-2')
             time.sleep(1)
@@ -71,12 +103,11 @@ class EmbodimentExperiment:
             self.behaviorManager.post.runBehavior('mike/social-2')
             time.sleep(1)
             if physical:
-                self.tts.say("Oh. What's the matter?")
+                self.tts.say("Aah. What's the matter?")
             else:
                 self._playVirtualSound('2b.wav')
 
-    #3 - Cold outside
-    def trial_3(self, physical, social):
+    def trial_4(self, physical, social):
         if not social:
             if physical:
                 self.tts.say("It can get quite cold indeed. Robots can not feel cold.")
@@ -87,9 +118,8 @@ class EmbodimentExperiment:
                 self.tts.say("It can get quite cold indeed. I don't like that either.")
             else:
                 self._playVirtualSound('3b.wav')
-
-    #4 - Robot football  
-    def trial_4(self, physical, social):
+ 
+    def trial_5(self, physical, social):
         if not social:
             if physical:
                 self.tts.say("Besides a better understanding of human language I want to learn new movements.")
@@ -113,8 +143,7 @@ class EmbodimentExperiment:
                 self._playVirtualSound('4_2.wav')
                 self._playVirtualSound('4_3.wav')
 
-    #5 - Keep fit
-    def trial_5(self, physical, social):
+    def trial_6(self, physical, social):
         if not social:
             self.behaviorManager.post.runBehavior('mike/neutral-5')
             if physical:
@@ -133,8 +162,7 @@ class EmbodimentExperiment:
                 self._playVirtualSound('5_1b.wav') 
                 self._playVirtualSound('5_2.wav')
 
-    #6 - Theater
-    def trial_6(self, physical, social):
+    def trial_7(self, physical, social):
         if not social:
             if physical:
                 self.tts.say("OK")
@@ -150,14 +178,13 @@ class EmbodimentExperiment:
                 self._playVirtualSound('6_1b.wav')
                 self._playVirtualSound('6_2.wav')
 
-    #7 - Comedian
-    def trial_7(self, physical, social):
+    def trial_8(self, physical, social):
         if not social:
             self.behaviorManager.post.runBehavior('mike/neutral-7')
             time.sleep(1) 
             if physical:
                 self.tts.say("That is nothing for me. Robots can not understand humor.")
-                self.tts.say("If you tell a joke I might be able to learn it")
+                self.tts.say("If you tell a joke I might be able to learn how to understand it")
             else:
                 self._playVirtualSound('7_1a.wav')
                 self._playVirtualSound('7_2a.wav')
@@ -166,13 +193,12 @@ class EmbodimentExperiment:
             time.sleep(1)
             if physical:
                 self.tts.say("That sounds cool. Unfortunately robots cannot understand humor.")
-                self.tts.say("Can you please tell a joke. I might be able to learn it.")
+                self.tts.say("Can you please tell a joke. I might be able to learn how to understand it.")
             else:
                 self._playVirtualSound('7_1b.wav')
                 self._playVirtualSound('7_2b.wav')
 
-    #8 - Joke
-    def trial_8(self, physical, social):
+    def trial_9(self, physical, social):
         if not social:
             if physical:
                 self.tts.say("Haha")
@@ -191,31 +217,33 @@ class EmbodimentExperiment:
                 time.sleep(2)
                 self._playVirtualSound('8_2.wav')
 
-    #9 - Benedict Cumberbatch
-    def trial_9(self, physical, social):
+    def trial_10(self, physical, social):
         if not social:
             if physical:
                 self.tts.say("Maybe I should become an actor like Benedict Cumberbatch. He plays Alan Turing in the imitation game.")
+                self.tts.say("Do you know that movie?")
             else:
                 self._playVirtualSound('9_2a.wav')
+                self._playVirtualSound('9_3.wav')
         else:
             self.behaviorManager.post.runBehavior('mike/social-9')
             if physical:
                 time.sleep(3)
                 self.tts.say("Maybe I should become an actor like Benedict Cumberbatch. He plays my hero, Alan Turing, in the imitation game.")
+                self.tts.say("Do you know that movie?")
             else:
                 time.sleep(1)
                 self._playVirtualSound('9_1b.wav')
                 time.sleep(2)
                 self._playVirtualSound('9_2b.wav')
+                self._playVirtualSound('9_3.wav')
 
-    #10 - Oscars
-    def trial_10(self, physical, social):
+    def trial_11(self, physical, social):
         if not social:
             self.behaviorManager.post.runBehavior('mike/neutral-4')
             if physical:
                 self.tts.say("Yeah I hope so!")
-                self.tts.say("What is your favorite movie for this year's Oscars?")
+                self.tts.say("What is your favorite movie for the Oscars this year? ")
             else:
                 self._playVirtualSound('10_1a.wav')
                 self._playVirtualSound('10_2.wav')
@@ -223,13 +251,12 @@ class EmbodimentExperiment:
             self.behaviorManager.post.runBehavior('mike/social-4')
             if physical:
                 self.tts.say("Yeah let us hope so!")
-                self.tts.say("What is your favorite movie for this year's Oscars?")
+                self.tts.say("What is your favorite movie for the Oscars this year?")
             else:
                 self._playVirtualSound('10_1b.wav')
                 self._playVirtualSound('10_2.wav')
 
-    #11 - Food and cranky humans
-    def trial_11(self, physical, social):
+    def trial_12(self, physical, social):
         if not social:
             if physical:
                 self.tts.say("I only need electricity to function. So I can get hungry sometimes. I heard humans when hungry can go like this: ")
@@ -252,3 +279,12 @@ class EmbodimentExperiment:
                 self._playVirtualSound('11_2.wav')
                 time.sleep(3)
                 self._playVirtualSound('11_3.wav')
+
+    def trial_13(self, physical, social):
+        pass
+    def trial_14(self, physical, social):
+        pass
+    def trial_15(self, physical, social):
+        pass
+    def trial_16(self, physical, social):
+        pass
