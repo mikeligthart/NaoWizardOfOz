@@ -6,7 +6,7 @@ class WizardOfOzRemote(object):
 
     def __init__(self):
         #Default settings
-        self.ipAddress = "131.174.106.203"#"131.174.106.230"
+        self.ipAddress = "131.174.106.230"#"131.174.106.203"
         self.port = 9559
         self.soundPort = 50007
         self.isConnected = False
