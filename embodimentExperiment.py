@@ -59,23 +59,23 @@ class EmbodimentExperiment:
             time.sleep(1)
             if physical:
                 self.tts.say("Hi.")
-                time.sleep(2)
+                time.sleep(1)
                 self.tts.say("Let's start the converstation. What is your name?")
             else:
                 self._playVirtualSound('1.wav')
-                time.sleep(2)
-                self._playVirtualSound('1_2a')
+                time.sleep(1)
+                self._playVirtualSound('1_2a.wav')
         else:
             self.behaviorManager.post.runBehavior('mike/social-1')
             time.sleep(1)
             if physical:
                 self.tts.say("Hi")
-                time.sleep(2)
+                time.sleep(1)
                 self.tts.say("I'm looking forward to having a conversation with you. What is your name?")
             else:
                 self._playVirtualSound('1.wav')
-                time.sleep(2)
-                self._playVirtualSound('1_2b')
+                time.sleep(1)
+                self._playVirtualSound('1_2b.wav')
             
     def trial_2(self, physical, social):
         if not social:
@@ -277,7 +277,6 @@ class EmbodimentExperiment:
                 self._playVirtualSound('11_1b.wav')
                 self.behaviorManager.post.runBehavior('mike/social-11')
                 self._playVirtualSound('11_2.wav')
-                time.sleep(3)
                 self._playVirtualSound('11_3.wav')
 
     def trial_13(self, physical, social):
