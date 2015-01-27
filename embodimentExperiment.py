@@ -325,8 +325,63 @@ class EmbodimentExperiment:
                 self._playVirtualSound('13_3.wav')
                 
     def trial_14(self, physical, social):
-        pass
+        if not social:
+            if physical:
+                self.tts.say("These months are tough. A lot of hard working.")
+                self.tts.say("Do you have something fun planned this week to compensate the hard work?")
+            else:
+                self._playVirtualSound('14_1a.wav')
+                self._playVirtualSound('14_2.wav')
+        else:
+            if physical:
+                self.tts.say("It has been a month before we had a good break isn't it? I know what you mean. These months are tough.")
+                self.behaviorManager.post.runBehavior('mike/neutral-5')
+                self.tts.say("Do you have something fun planned this week to compensate the hard work?")
+            else:
+                self._playVirtualSound('14_1b.wav')
+                self.behaviorManager.post.runBehavior('mike/neutral-5')
+                self._playVirtualSound('14_2.wav')
+
     def trial_15(self, physical, social):
-        pass
+        if not social:
+            if physical:
+                self.tts.say("I sometimes browse for software upgrades. If they are useful I buy them.")
+                self.behaviorManager.post.runBehavior('mike/neutral-5')
+                self.tts.say("That can be called shopping.")
+                self.behaviorManager.post.runBehavior('mike/both-15')
+                time.sleep(2)
+                self.tts.say("That was the gong. The time is up. Thank you for helping me.")
+            else:
+                self._playVirtualSound('15_1.wav')
+                self.behaviorManager.post.runBehavior('mike/neutral-5')
+                self._playVirtualSound('15_2a.wav')
+                self._playVirtualSound('15_3.wav')
+                self._playVirtualSound('15_4a.wav')
+        else:
+            if physical:
+                self.tts.say("I sometimes browse for software upgrades. If they are useful I buy them.")
+                self.behaviorManager.post.runBehavior('mike/social-7')
+                self.tts.say("I tink we can call that shopping!") #Tink instead if because the way Nao pronounces 'think' in this sentence 
+                self.behaviorManager.post.runBehavior('mike/both-15')
+                time.sleep(2)
+                self.tts.say("Oh no that was the gong. Our time is up. I enjoyed this conversation very much. Thanks so much for your help!")
+            else:
+                self._playVirtualSound('15_1.wav')
+                self.behaviorManager.post.runBehavior('mike/social-7')
+                self._playVirtualSound('15_2b.wav')
+                self._playVirtualSound('15_3.wav')
+                self._playVirtualSound('15_4b.wav')
+
     def trial_16(self, physical, social):
-        pass
+        if not social:
+            if physical:
+                self.tts.say("You can go back to the other desk and complete the questionnaires. When you are done you can go outside where the experiment leader will wait for you.")
+            else:
+                self._playVirtualSound('16.wav')
+        else:
+            if physical:
+                self.behaviorManager.post.runBehavior('mike/social-16')
+                self.tts.say("You can go back to the other desk and complete the questionnaires. When you are done you can go outside where the experiment leader will wait for you.")
+            else:
+                self.behaviorManager.post.runBehavior('mike/social-16')
+                self._playVirtualSound('16.wav')
