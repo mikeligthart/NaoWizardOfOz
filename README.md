@@ -9,6 +9,7 @@ Wizard of Oz set-up in python for embodiment experiment with Nao
 # Use with physical Nao
 * Run wizardOfOzRemote.py
 * Have a Nao running and get its IP-address (pushing the chest button once)
+* Upload all the behaviors in /behaviors to /mike in the Nao (using Choregraphe - https://community.aldebaran.com/en/resources/software/212-2-choregraphe-suite-0)
 * Enter the Nao's IP-address and port (default = 9559) under the 'Settings' tab
 * Press the 'Connect to Nao' button
 * If it says: "Succesfully connected to Nao!" you're good to go. If it says "An error occured!" see troubleshooting below.
@@ -19,6 +20,7 @@ Wizard of Oz set-up in python for embodiment experiment with Nao
 # Use with virtual Nao
 * Run wizardOfOzRemote.py
 * Start a virtual Nao in webots and get the IP-address of the computer that is simulating your Nao.
+* Upload all the behaviors in /behaviors to /mike in the Naoqi instance (using Choregraphe- https://community.aldebaran.com/en/resources/software/212-2-choregraphe-suite-0)
 * Run playASoundServer.py on the same computer as the virtual Nao
 * Enter the virtual Nao's IP-address and port (default = 9559) under the 'Settings' tab
 * Enter the port of the playASoundServer (default = 50007)
